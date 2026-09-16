@@ -56,7 +56,7 @@ targets. With frozen DINOv2 input and an independently BC-initialized policy,
 paired-feedback success remains $0.84$--$0.96$ under noise, blur, crop,
 occlusion, and color shifts, improving over no update by $0.24$--$0.30$. Fix the
 feedback contract before using failures to improve a policy.
-Generators, baselines, and audit gates: \texttt{github.com/RiseBun/icra}.
+Generators, baselines, and audit gates: \texttt{https://anonymous.4open.science/r/icra-8056/}.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -713,6 +713,18 @@ mass/friction push gains $0.481$ (CI $[0.411,0.568]$); three-outcome
 carry-release gains $0.207$ ($[0.171,0.236]$). Every seed is positive. These are
 predictor metrics; Table~\ref{tab:master} tests evaluator-free policy updates.
 
+\begin{center}
+\IfFileExists{figures/real_robot_tabletop.pdf}{%
+  \includegraphics[width=0.96\linewidth,height=1.35cm,keepaspectratio]{figures/real_robot_tabletop.pdf}%
+}{%
+  \fbox{\parbox[c][1.15cm][c]{0.94\linewidth}{\centering\footnotesize
+  Reserved real-tabletop slot: scene, candidate-action overlay, and outcome.}}
+}
+\end{center}
+\noindent\textit{Real-tabletop transfer (reserved slot).} The same candidate
+action is evaluated under different object layouts; visible geometry determines
+whether the controller executes, rejects, or requests a retry.
+
 \subsection{External real-video label audit}
 \label{sec:public_audit}
 
@@ -839,7 +851,7 @@ contract for failure-driven WAMs, not a new backbone.
 
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{40}
-\setlength{\itemsep}{-1pt}
+\setlength{\itemsep}{-4pt}
 \bibitem{ha2018recurrent} D.~Ha and J.~Schmidhuber, ``Recurrent world models
 facilitate policy evolution,'' \emph{NeurIPS}, 2018.
 \bibitem{hafner2025mastering} D.~Hafner et al., ``Mastering diverse control
