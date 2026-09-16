@@ -1,0 +1,22 @@
+{
+  "n_layouts": 60,
+  "n_rows": 180,
+  "class_counts": {
+    "0": 73,
+    "1": 65,
+    "2": 42
+  },
+  "action_only": {
+    "macro_auroc": 0.4666220146841778,
+    "accuracy": 0.2111111111111111
+  },
+  "geometry_only": {
+    "macro_auroc": 0.5933866643623279,
+    "accuracy": 0.24444444444444444
+  },
+  "action_geometry": {
+    "macro_auroc": 0.7129840710392297,
+    "accuracy": 0.45555555555555555
+  },
+  "joint_minus_action": 0.24636205635505187
+}

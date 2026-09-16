@@ -1,0 +1,205 @@
+{
+  "mujoco": {
+    "n_layouts": 200,
+    "n_rows": 600,
+    "class_counts": {
+      "success": 192,
+      "wrong_target": 381,
+      "drop": 27
+    },
+    "confounded_amp_auroc": 1.0,
+    "action_only": {
+      "macro_auroc": 0.4280463433575174,
+      "accuracy": 0.6533333333333333,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.42422711658921
+    },
+    "geometry_only": {
+      "macro_auroc": 0.5844150937856737,
+      "accuracy": 0.6533333333333333,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.5127298444130127
+    },
+    "action_geometry": {
+      "macro_auroc": 0.857947197453916,
+      "accuracy": 0.98,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.9961608405738533
+    },
+    "endpoint_noise_m": 0.01,
+    "joint_minus_action": 0.4299008540963986
+  },
+  "pybullet": {
+    "n_layouts": 200,
+    "n_rows": 600,
+    "class_counts": {
+      "success": 187,
+      "wrong_target": 376,
+      "drop": 37
+    },
+    "confounded_amp_auroc": 1.0,
+    "action_only": {
+      "macro_auroc": 0.45257538574370265,
+      "accuracy": 0.6533333333333333,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.42422711658921
+    },
+    "geometry_only": {
+      "macro_auroc": 0.4196649305825402,
+      "accuracy": 0.6533333333333333,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.5113659325116184
+    },
+    "action_geometry": {
+      "macro_auroc": 0.8265475945815409,
+      "accuracy": 0.98,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.9959082642958174
+    },
+    "endpoint_noise_m": 0.01,
+    "joint_minus_action": 0.37397220883783827
+  },
+  "sapien": {
+    "n_layouts": 200,
+    "n_rows": 600,
+    "class_counts": {
+      "success": 192,
+      "wrong_target": 381,
+      "drop": 27
+    },
+    "confounded_amp_auroc": 1.0,
+    "action_only": {
+      "macro_auroc": 0.4280463433575174,
+      "accuracy": 0.6533333333333333,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.42422711658921
+    },
+    "geometry_only": {
+      "macro_auroc": 0.5844150937856737,
+      "accuracy": 0.6533333333333333,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.5127298444130127
+    },
+    "action_geometry": {
+      "macro_auroc": 0.857947197453916,
+      "accuracy": 0.98,
+      "auroc_classes": [
+        0,
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.9961608405738533
+    },
+    "endpoint_noise_m": 0.01,
+    "joint_minus_action": 0.4299008540963986
+  },
+  "cross_engine_transfer": {
+    "mujoco": {
+      "pybullet": {
+        "macro_auroc": 0.857947197453916,
+        "accuracy": 0.98,
+        "auroc_classes": [
+          0,
+          1,
+          2
+        ],
+        "binary_success_auroc": 0.9961608405738533
+      },
+      "sapien": {
+        "macro_auroc": 0.857947197453916,
+        "accuracy": 0.98,
+        "auroc_classes": [
+          0,
+          1,
+          2
+        ],
+        "binary_success_auroc": 0.9961608405738533
+      }
+    },
+    "pybullet": {
+      "mujoco": {
+        "macro_auroc": 0.8265475945815409,
+        "accuracy": 0.98,
+        "auroc_classes": [
+          0,
+          1,
+          2
+        ],
+        "binary_success_auroc": 0.9959082642958174
+      },
+      "sapien": {
+        "macro_auroc": 0.8265475945815409,
+        "accuracy": 0.98,
+        "auroc_classes": [
+          0,
+          1,
+          2
+        ],
+        "binary_success_auroc": 0.9959082642958174
+      }
+    },
+    "sapien": {
+      "mujoco": {
+        "macro_auroc": 0.857947197453916,
+        "accuracy": 0.98,
+        "auroc_classes": [
+          0,
+          1,
+          2
+        ],
+        "binary_success_auroc": 0.9961608405738533
+      },
+      "pybullet": {
+        "macro_auroc": 0.857947197453916,
+        "accuracy": 0.98,
+        "auroc_classes": [
+          0,
+          1,
+          2
+        ],
+        "binary_success_auroc": 0.9961608405738533
+      }
+    }
+  },
+  "summary": {
+    "mean_amp_auroc": 1.0,
+    "mean_joint_minus_action": 0.41125797234354516,
+    "engines": [
+      "mujoco",
+      "pybullet",
+      "sapien"
+    ]
+  }
+}

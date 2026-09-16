@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If this anonymous artifact is useful, please cite the associated submission after de-anonymization."
+title: "AGCD: Shortcut-Robust Counterfactuals for Action-Conditioned World Models"
+type: software
+authors:
+  - family-names: "Anonymous"
+    given-names: "Authors"
+version: "review-release"
+date-released: 2026-09-16

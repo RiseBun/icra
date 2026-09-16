@@ -1,0 +1,15 @@
+{
+  "python": "3.10+",
+  "torch": "2.5.x",
+  "gpu": "optional; CUDA-capable GPU recommended for visual backbones",
+  "coppeliasim": "4.1.0 (optional RLBench experiments)",
+  "rlbench": "1.2.0 (optional)",
+  "pyrep": "4.1.0.3 (optional)",
+  "gymnasium": "1.0.0a2",
+  "strong_world_model_baseline": "PointWorld@05484826dfef74cbe278a3974179a5a16705d35d",
+  "feature_contract": "configs/feature_contract.json",
+  "history_steps": 8,
+  "future_steps": 8,
+  "candidate_actions": 8,
+  "backbone_policy": "frozen"
+}

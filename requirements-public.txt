@@ -1,0 +1,4 @@
+# Optional dependencies for BridgeData/LeRobot Parquet ingestion.
+pandas>=2.0
+pyarrow>=14.0
+scikit-learn>=1.2

@@ -1,0 +1,44 @@
+{
+  "version": "2.0",
+  "defaults": {
+    "history_steps": 8,
+    "action_candidates": 8,
+    "action_steps": 32,
+    "future_steps": 8,
+    "scene_points": 512,
+    "robot_points": 128,
+    "candidate_views": 8,
+    "image_resolution": 256
+  },
+  "inputs": {
+    "rgb_history": "uint8[K,3,256,256] optional after frozen-front-end export",
+    "camera_intrinsics": "float32[K,3,3]",
+    "camera_extrinsics": "float32[K,4,4]",
+    "robot_base_to_world": "float32[4,4]",
+    "joint_history": "float32[K,8]",
+    "points": "float32[K,N,3] in robot-base frame",
+    "point_features": "float32[K,N,C]",
+    "robot_state": "float32[K,S]",
+    "candidate_actions": "float32[M,L,8]",
+    "robot_action_flow": "float32[M,L,Q,3]",
+    "candidate_views": "float32[V,6] relative SE(3)",
+    "view_cost": "float32[V]",
+    "view_safety_cost": "float32[V]",
+    "view_rgb_history": "uint8[V,K,3,256,256] optional before front-end export",
+    "view_points": "float32[V,K,N,3] training-time active-view geometry",
+    "view_point_features": "float32[V,K,N,C]",
+    "view_camera_extrinsics": "float32[V,K,4,4]",
+    "task_embedding": "float32[D]"
+  },
+  "training_targets": {
+    "future_point_flow": "float32[M,H,N,3]",
+    "task_contact_map": "float32[M,H,N]",
+    "harmful_collision_map": "float32[M,H,N]",
+    "success": "float32[M]",
+    "collision": "float32[M]",
+    "view_risk_reduction": "float32[V] optional"
+  },
+  "coordinate_frame": "robot_base",
+  "timestamp_unit": "seconds",
+  "split_unit": "episode"
+}

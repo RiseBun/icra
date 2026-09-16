@@ -1,0 +1,190 @@
+{
+  "mujoco": {
+    "n_layouts": 200,
+    "n_rows": 600,
+    "class_counts": {
+      "success": 200,
+      "wrong_target": 400,
+      "drop": 0
+    },
+    "confounded_amp_auroc": 1.0,
+    "action_only": {
+      "macro_auroc": 0.425725,
+      "accuracy": 0.6666666666666666,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.427825
+    },
+    "geometry_only": {
+      "macro_auroc": 0.5000625000000001,
+      "accuracy": 0.6666666666666666,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.500075
+    },
+    "action_geometry": {
+      "macro_auroc": 1.0,
+      "accuracy": 1.0,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 1.0
+    },
+    "endpoint_noise_m": 0.0,
+    "joint_minus_action": 0.574275
+  },
+  "pybullet": {
+    "n_layouts": 200,
+    "n_rows": 600,
+    "class_counts": {
+      "success": 200,
+      "wrong_target": 400,
+      "drop": 0
+    },
+    "confounded_amp_auroc": 1.0,
+    "action_only": {
+      "macro_auroc": 0.425725,
+      "accuracy": 0.6666666666666666,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.427825
+    },
+    "geometry_only": {
+      "macro_auroc": 0.5000625000000001,
+      "accuracy": 0.6666666666666666,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.500075
+    },
+    "action_geometry": {
+      "macro_auroc": 1.0,
+      "accuracy": 1.0,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 1.0
+    },
+    "endpoint_noise_m": 0.0,
+    "joint_minus_action": 0.574275
+  },
+  "sapien": {
+    "n_layouts": 200,
+    "n_rows": 600,
+    "class_counts": {
+      "success": 200,
+      "wrong_target": 400,
+      "drop": 0
+    },
+    "confounded_amp_auroc": 1.0,
+    "action_only": {
+      "macro_auroc": 0.425725,
+      "accuracy": 0.6666666666666666,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.427825
+    },
+    "geometry_only": {
+      "macro_auroc": 0.5000625000000001,
+      "accuracy": 0.6666666666666666,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 0.500075
+    },
+    "action_geometry": {
+      "macro_auroc": 1.0,
+      "accuracy": 1.0,
+      "auroc_classes": [
+        1,
+        2
+      ],
+      "binary_success_auroc": 1.0
+    },
+    "endpoint_noise_m": 0.0,
+    "joint_minus_action": 0.574275
+  },
+  "cross_engine_transfer": {
+    "mujoco": {
+      "pybullet": {
+        "macro_auroc": 1.0,
+        "accuracy": 1.0,
+        "auroc_classes": [
+          1,
+          2
+        ],
+        "binary_success_auroc": 1.0
+      },
+      "sapien": {
+        "macro_auroc": 1.0,
+        "accuracy": 1.0,
+        "auroc_classes": [
+          1,
+          2
+        ],
+        "binary_success_auroc": 1.0
+      }
+    },
+    "pybullet": {
+      "mujoco": {
+        "macro_auroc": 1.0,
+        "accuracy": 1.0,
+        "auroc_classes": [
+          1,
+          2
+        ],
+        "binary_success_auroc": 1.0
+      },
+      "sapien": {
+        "macro_auroc": 1.0,
+        "accuracy": 1.0,
+        "auroc_classes": [
+          1,
+          2
+        ],
+        "binary_success_auroc": 1.0
+      }
+    },
+    "sapien": {
+      "mujoco": {
+        "macro_auroc": 1.0,
+        "accuracy": 1.0,
+        "auroc_classes": [
+          1,
+          2
+        ],
+        "binary_success_auroc": 1.0
+      },
+      "pybullet": {
+        "macro_auroc": 1.0,
+        "accuracy": 1.0,
+        "auroc_classes": [
+          1,
+          2
+        ],
+        "binary_success_auroc": 1.0
+      }
+    }
+  },
+  "summary": {
+    "mean_amp_auroc": 1.0,
+    "mean_joint_minus_action": 0.574275,
+    "engines": [
+      "mujoco",
+      "pybullet",
+      "sapien"
+    ]
+  }
+}
