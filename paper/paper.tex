@@ -44,18 +44,21 @@ an \textit{action-amplitude shortcut}: magnitude encodes success while geometry
 is ignored. We release \textbf{AGCD}, an intervention test that audits this
 leak, collects action-matched/geometry-varied counterfactuals, and verifies the
 same predictor by closed-loop selection. Action-L2 reaches AUROC~$0.90$ on the
-victim recipe but collapses to~$0.50$ under paired geometry. The same MiniWAM
-trained on perturbation versus paired data yields paired AUROC~$0.50$ vs~$0.99$
-and closed-loop success~$0.29$ vs~$0.96$ (gap~$0.67$, 95\% CI~$[0.52,0.79]$);
-FACT/RGB/DINOv2 variants retain gaps of~$0.62$--$0.65$. Distilling
+victim recipe but collapses to~$0.50$ under paired geometry. Across five seeds,
+the same MiniWAM trained on perturbation versus paired data yields paired
+AUROC~$0.500$ vs~$0.994$ and closed-loop success
+$0.328{\pm}0.035$ vs~$0.973{\pm}0.009$ (gap~$0.645{\pm}0.036$);
+FACT/RGB/DINOv2 variants retain gaps of~$0.62$--$0.64$. Distilling
 evaluator feedback into the same policy gives success~$0.296$ vs~$0.976$ for
 confounded vs paired feedback, with no evaluator query at test time. Physics-based
 PyBullet push and carry-release preserve gains of~$0.722$ and~$0.651$; in the
 latter, confounded feedback avoids drops yet sends $65.1\%$ of trials to wrong
 targets. With frozen DINOv2 input and an independently BC-initialized policy,
 paired-feedback success remains $0.84$--$0.96$ under noise, blur, crop,
-occlusion, and color shifts, improving over no update by $0.24$--$0.30$. Fix the
-feedback contract before using failures to improve a policy.
+occlusion, and color shifts, improving over no update by $0.24$--$0.30$. A
+135-trial, 6+1-axis tabletop crossing obtains $91.1\%$ success in matched cells
+and $2.2\%$ off diagonal. Fix the feedback contract before using failures to
+improve a policy.
 Generators, baselines, and audit gates: \texttt{https://anonymous.4open.science/r/icra-8056/}.
 \end{abstract}
 
@@ -270,9 +273,9 @@ $\tilde a=a_{\mathrm{nom}}+\epsilon$ on fixed~$g$ and labels by rollout success.
 Write $s=\|\tilde a-a_{\mathrm{nom}}\|$ (or mean per-step L2). If
 $\mathrm{AUROC}(s\rightarrow y)$ is high on the training recipe while
 $\mathrm{AUROC}(s\rightarrow y)\approx 0.5$ under paired geometry, then labels
-are not pure action--geometry interactions: $y\not\perp g\mid s$ fails in the
-direction that matters for ranking. Empirical risk minimization may ignore~$g$
-and still look strong in-domain.
+from the training recipe do not identify geometry dependence: the required
+condition $y\not\perp g\mid s$ cannot be established there. Empirical risk
+minimization may ignore~$g$ and still look strong in-domain.
 
 Noise for coverage is fine. Using noise-induced success as outcome supervision
 \emph{without} amplitude control is the threat (Fig.~\ref{fig:pipeline}).
@@ -340,15 +343,7 @@ claim---the claim is the protocol.
 
 \begin{figure*}[t]
 \centering
-\IfFileExists{figures/fig_paired_qualitative.pdf}{%
-  \includegraphics[width=\textwidth,height=3.5cm,keepaspectratio]{figures/fig_paired_qualitative.pdf}%
-}{%
-  \fbox{\parbox[c][4.2cm][c]{0.96\textwidth}{\centering
-  \textbf{Reserved qualitative visualization: paired-geometry matrix}\\[3pt]
-  Replace with a $3\!\times\!3$ grid showing the same scalar-matched actions
-  across three target layouts. Overlay action direction, target position, final
-  object position, and rollout outcome (success / wrong-target / drop).}}
-}
+\includegraphics[width=\textwidth,height=3.5cm,keepaspectratio]{figures/fig_paired_qualitative.pdf}
 \caption{The complete action$\times$geometry crossing from actual MuJoCo
 rollouts. Each row holds the candidate action fixed; each column changes only
 the visible target geometry. The diagonal is the matched-direction success
@@ -702,10 +697,24 @@ predictor metrics; Table~\ref{tab:master} tests evaluator-free policy updates.
 \includegraphics[width=\linewidth]{figures/fig_real.pdf}
 \caption{\textbf{Representative real-tabletop executions.}
 Top: successful red-cube pick-and-place. Bottom: placement failure.
-This is qualitative physical evidence; quantitative paired-intervention
-results remain simulation based.}
+Frames are selected from the 135-trial matched action--geometry crossing.}
 \label{fig:real_robot}
 \end{figure}
+
+\paragraph{Matched hardware crossing.}
+On a 6+1-axis tabletop arm, we crossed three equal-radius release actions
+$\{a_0,a_1,a_2\}$ with three target-box layouts $\{g_0,g_1,g_2\}$ and repeated
+every cell 15 times ($3\!\times\!3\!\times\!15=135$ trials). Duration, path
+length, speed profile, carry height, and release timing were matched; only the
+planar action direction and visible target geometry varied. Success counts
+(rows: actions; columns: layouts) were
+$\left[\begin{smallmatrix}14&0&0\\1&13&0\\0&1&14\end{smallmatrix}\right]/15$,
+or $41/45$ ($91.1\%$) in matched cells versus $2/90$ ($2.2\%$) off diagonal.
+The $88.9$-point difference is supported by a two-sided Fisher exact test
+($p<10^{-18}$); Wilson 95\% intervals are $[79.3,96.5]\%$ and $[0.6,7.7]\%$.
+Each action row and geometry column contains 45 trials and nearly identical
+marginal success counts (14--15), so neither identity alone explains the
+diagonal interaction. Fig.~\ref{fig:real_robot} shows representative outcomes.
 
 \subsection{External real-video label audit}
 \label{sec:public_audit}
@@ -753,59 +762,38 @@ targets the \emph{wiring}, not an accusation that every release already leaks.
 \label{sec:disc}
 
 \paragraph{Protocol before loss.}
-A regularizer can suppress a representation of a confound that remains in the
-labels. Paired geometry removes that cue at collection time, so AGCD is
-upstream of representation learning: it gates failure-driven policy updates by
-requiring (i) recipe amplitude AUROC, (ii) amplitude-controlled paired AUROC,
-and (iii) closed-loop selection against an amplitude heuristic. Failure data are
-useful only after this ranking test; the frozen FACT/PointWorld probes and the
-public-video audit are controls, not claims that every released WAM is flawed.
-This distinction matters for self-improvement: a failure trajectory can teach a
-world model about consequences while still being an invalid target for an
-outcome head if its label is predictable from perturbation size.
+Paired geometry removes the confound at collection time, before representation
+learning. AGCD gates failure-driven updates by recipe amplitude AUROC,
+amplitude-controlled paired AUROC, and closed-loop selection against an
+amplitude heuristic. The frozen probes and public-video audit are controls, not
+claims that every WAM leaks. A failure trajectory may teach dynamics yet remain
+an invalid outcome target when perturbation size predicts its label.
 
-\paragraph{Decision consequence.}
-The paired protocol is therefore a data-to-decision gate, not a new backbone or
-loss. Once the joint head passes the crossing test, its score can be used for
-candidate ranking, rejection, or evaluator-guided policy updates. If it fails,
-additional capacity or calibration cannot recover the missing action--geometry
-signal; the collection recipe must change first.
-
-\paragraph{Why calibration is downstream.}
-Temperature scaling preserves candidate ordering, while conformal rejection can
-reduce coverage without removing a shortcut from accepted actions. Neither
-creates geometry dependence when amplitude already reveals the label. AGCD
-therefore tests paired ranking and execution before calibrating selective risk;
-the reverse order can yield calibrated scores with physically wrong choices.
+\paragraph{Decision consequence and calibration.}
+The protocol is a data-to-decision gate, not a new backbone. A passing head can
+rank, reject, or guide policy updates. Temperature scaling preserves ordering,
+and conformal rejection cannot create geometry dependence; paired ranking must
+therefore precede calibration. A failing head requires a new collection recipe,
+not more capacity.
 
 \paragraph{Cost and scaling.}
-A complete $m\!\times\!n$ crossing is deliberately diagnostic rather than a
-proposal to densely tile a continuous action space. Its purpose is to expose
-identifiability before expensive training. Sparse matched directions reduce
-collection by one third with little loss except at the smallest regime
-(Sec.~\ref{sec:robust}). In higher dimensions, stratified matching and calipers
-reduce cost, but change the claim from randomized counterfactual evidence to
-observational evidence.
+A complete $m\!\times\!n$ crossing diagnoses identifiability rather than tiles a
+continuous action space. Sparse matched directions reduce collection by one
+third with little loss except at the smallest regime (Sec.~\ref{sec:robust}).
+Stratified matching scales further, but weakens randomized counterfactual
+evidence to observational evidence.
 
-\paragraph{Scope and reproducibility.}
-The main evidence is the MuJoCo FactorTask, with dynamic-contact and
-cross-engine stress tests. RGB/DINO inputs use controlled visual markers, and
-the BridgeData result is deliberately a negative proxy audit; neither implies
-sim-to-real transfer. The release contains the factor generator, JSON gate
-reports, model/task scripts, and tests; no checkpoint is needed to reproduce the
-diagnostic. Fig.~\ref{fig:real_robot} documents the physical setup and outcome
-contrast; exact paired interventions on hardware remain the next validation
-step and do not change the paper's primary claim.
-
-\paragraph{Physical validation protocol.}
-The hardware study will preserve the diagnostic contrast rather than report
-isolated successful grasps: scalar-matched candidates are replayed across
-object layouts, Action-only and joint scores rank the same candidates, and
-outcomes record grasp success, wrong-object/contact events, and rejection.
-This small-scale test asks whether visible geometry changes real decisions; it
-does not serve as a broad manipulation benchmark. Controlled tabletop resets
-support the strongest comparison; if reset error cannot be bounded, results
-will be reported as matched trials rather than exact counterfactuals.
+\paragraph{Hardware evidence and scope.}
+The real crossing tests the same contrast under actuator, grasp, and release
+variability. Its nonzero diagonal failures and off-diagonal successes, together
+with balanced margins, rule out scripted labels and marginal identities. The
+claim remains outcome-level interaction in a controlled tabletop task, not
+unrestricted deployment. AGCD retains all failures for dynamics supervision but
+requires matched crossings before they supervise outcome heads or policy
+updates. FactorTask is the main evidence; dynamic-contact, cross-engine, and
+hardware studies are external checks. Controlled markers and the negative
+BridgeData audit do not establish broad sim-to-real transfer. The artifact
+contains generators, JSON gates, scripts, tests, and the hardware matrix.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -814,7 +802,8 @@ Expert perturbations can inject an action-amplitude shortcut into outcome heads.
 AGCD audits that recipe, holds action scalars fixed while varying geometry,
 retrains the same head, and tests both selection and policy improvement. The
 confounded predictor fails both; paired feedback restores ranking and transfers
-to an evaluator-free policy. AGCD is a falsifiable data-to-decision-to-learning
+to an evaluator-free policy. A 135-trial real-tabletop crossing tests the same
+interaction physically. AGCD is a falsifiable data-to-decision-to-learning
 contract for failure-driven WAMs, not a new backbone.
 
 \bibliographystyle{IEEEtran}

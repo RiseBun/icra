@@ -9,6 +9,7 @@ This review bundle was checked for:
 - compilation logs and document metadata that expose local paths;
 - large raw datasets and private checkpoints.
 
-The paper source retains only `Anonymous Authors`. The release directory is a
-fresh tree and contains no `.git` history. Before publishing, create the remote
-with an anonymous account and avoid linking it from a personal profile.
+The paper source retains only `Anonymous Authors`. Published commits use an
+anonymous author identity and contain no pre-anonymization history. For review,
+mirror the repository through an anonymous account and avoid linking it from a
+personal profile.

@@ -1,8 +1,8 @@
 # AGCD: Anonymous Reproducibility Release
 
 This repository contains the code and compact diagnostic artifacts for the
-anonymous submission **AGCD: Shortcut-Robust Counterfactuals for
-Action-Conditioned World Models**.
+anonymous submission **AGCD: Auditing Failure-Driven Policy Improvement in
+World--Action Models**.
 
 AGCD tests whether an outcome predictor uses an action--geometry interaction or
 the easier shortcut of action amplitude. The paired protocol keeps the action
@@ -40,6 +40,10 @@ machine paths are intentionally excluded. Public-data utilities accept a local
 export and never silently crawl an unbounded archive. Public trajectory labels
 are explicitly called `progress_proxy` when no reliable terminal reward exists;
 they are not presented as verified success/failure labels.
+
+The real-tabletop $3\times3\times15$ crossing is recorded in
+`data/diagnostics/real_hardware_crossing_135.json`, including the complete cell
+counts, matched/off-diagonal rates, and statistical test.
 
 ## Optional dependencies
 

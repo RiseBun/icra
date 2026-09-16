@@ -13,6 +13,7 @@ __pycache__/
 *.blg
 *.bbl
 release_check.pdf
+paper/paper_release.pdf
 .DS_Store
 Thumbs.db
 .env

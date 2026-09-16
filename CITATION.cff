@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If this anonymous artifact is useful, please cite the associated submission after de-anonymization."
-title: "AGCD: Shortcut-Robust Counterfactuals for Action-Conditioned World Models"
+title: "AGCD: Auditing Failure-Driven Policy Improvement in World--Action Models"
 type: software
 authors:
   - family-names: "Anonymous"

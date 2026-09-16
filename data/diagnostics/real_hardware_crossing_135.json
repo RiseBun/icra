@@ -1,0 +1,39 @@
+{
+  "experiment": "real_tabletop_matched_action_geometry_crossing",
+  "platform": "6+1-axis tabletop arm",
+  "task": "red-cube pick-and-place",
+  "outcome": "cube placed in the designated target box after release",
+  "actions": ["a0", "a1", "a2"],
+  "geometries": ["g0", "g1", "g2"],
+  "repeats_per_cell": 15,
+  "n_trials": 135,
+  "controlled_action_scalars": [
+    "duration",
+    "path_length",
+    "speed_profile",
+    "carry_height",
+    "release_timing"
+  ],
+  "success_counts_action_by_geometry": [
+    [14, 0, 0],
+    [1, 13, 0],
+    [0, 1, 14]
+  ],
+  "matched_cells": {
+    "successes": 41,
+    "trials": 45,
+    "success_rate": 0.9111111111111111,
+    "wilson_ci95": [0.7926642466571064, 0.9648888832736299]
+  },
+  "off_diagonal_cells": {
+    "successes": 2,
+    "trials": 90,
+    "success_rate": 0.022222222222222223,
+    "wilson_ci95": [0.006115441986325203, 0.07744526688625372]
+  },
+  "comparison": {
+    "success_rate_difference": 0.8888888888888888,
+    "odds_ratio": 451.0,
+    "fisher_exact_two_sided_p": 3.8047849864516805e-19
+  }
+}

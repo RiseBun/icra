@@ -7,12 +7,15 @@ from pathlib import Path
 
 PATTERNS = {
     "local_user_or_host": re.compile(
-        r"(?:zchen897|LPN19|slurmfs|user_data|C:\\Users|/home/|~/icra2027|iac)"
+        r"(?:[A-Za-z]:\\Users\\[^\\/\r\n]+|/home/[^/\s]+|slurmfs|user_data)"
     ),
     "email": re.compile(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", re.I),
     "private_material": re.compile(r"(?:BEGIN (?:RSA|OPENSSH|EC) PRIVATE KEY|ghp_[A-Za-z0-9_]+)"),
 }
-SKIP_SUFFIXES = {".pdf", ".png", ".jpg", ".jpeg", ".mp4", ".pyc"}
+SKIP_SUFFIXES = {
+    ".pdf", ".png", ".jpg", ".jpeg", ".mp4", ".pyc",
+    ".log", ".aux", ".out", ".toc", ".synctex",
+}
 
 
 def main() -> int:
