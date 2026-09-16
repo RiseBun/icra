@@ -789,6 +789,22 @@ candidate ranking, rejection, or evaluator-guided policy updates. If it fails,
 additional capacity or calibration cannot recover the missing action--geometry
 signal; the collection recipe must change first.
 
+\paragraph{Why calibration is downstream.}
+Temperature scaling preserves candidate ordering, while conformal rejection can
+reduce coverage without removing a shortcut from accepted actions. Neither
+creates geometry dependence when amplitude already reveals the label. AGCD
+therefore tests paired ranking and execution before calibrating selective risk;
+the reverse order can yield calibrated scores with physically wrong choices.
+
+\paragraph{Cost and scaling.}
+A complete $m\!\times\!n$ crossing is deliberately diagnostic rather than a
+proposal to densely tile a continuous action space. Its purpose is to expose
+identifiability before expensive training. Sparse matched directions reduce
+collection by one third with little loss except at the smallest regime
+(Sec.~\ref{sec:robust}). In higher dimensions, stratified matching and calipers
+reduce cost, but change the claim from randomized counterfactual evidence to
+observational evidence.
+
 \paragraph{Scope and reproducibility.}
 The main evidence is the MuJoCo FactorTask, with dynamic-contact and
 cross-engine stress tests. RGB/DINO inputs use controlled visual markers, and
@@ -805,7 +821,9 @@ isolated successful grasps: scalar-matched candidates are replayed across
 object layouts, Action-only and joint scores rank the same candidates, and
 outcomes record grasp success, wrong-object/contact events, and rejection.
 This small-scale test asks whether visible geometry changes real decisions; it
-does not serve as a broad manipulation benchmark.
+does not serve as a broad manipulation benchmark. Controlled tabletop resets
+support the strongest comparison; if reset error cannot be bounded, results
+will be reported as matched trials rather than exact counterfactuals.
 
 \section{Conclusion}
 \label{sec:conclusion}
