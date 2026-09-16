@@ -715,9 +715,9 @@ predictor metrics; Table~\ref{tab:master} tests evaluator-free policy updates.
 
 \begin{center}
 \IfFileExists{figures/real_robot_tabletop.pdf}{%
-  \includegraphics[width=0.96\linewidth,height=1.35cm,keepaspectratio]{figures/real_robot_tabletop.pdf}%
+  \includegraphics[width=0.96\linewidth,height=1.8cm,keepaspectratio]{figures/real_robot_tabletop.pdf}%
 }{%
-  \fbox{\parbox[c][1.15cm][c]{0.94\linewidth}{\centering\footnotesize
+  \fbox{\parbox[c][1.55cm][c]{0.94\linewidth}{\centering\footnotesize
   Reserved real-tabletop slot: scene, candidate-action overlay, and outcome.}}
 }
 \end{center}
@@ -770,74 +770,42 @@ targets the \emph{wiring}, not an accusation that every release already leaks.
 \section{Discussion}
 \label{sec:disc}
 
-\paragraph{Why a protocol, not a loss.}
-A consistency regularizer can penalize a \emph{representation} of a confound
-that still lives in the labels. Paired geometry removes the confound from the
-labels: if $s$ is constant across~$y$, there is nothing to ``forget.'' That is
-why AGCD does not propose a new training objective. CoCo remains the right tool
-for visual inertia; AGCD addresses label leakage upstream of representation
-learning.
+\paragraph{Protocol before loss.}
+A regularizer can suppress a representation of a confound that remains in the
+labels. Paired geometry removes that cue at collection time, so AGCD is
+upstream of representation learning: it gates failure-driven policy updates by
+requiring (i) recipe amplitude AUROC, (ii) amplitude-controlled paired AUROC,
+and (iii) closed-loop selection against an amplitude heuristic. Failure data are
+useful only after this ranking test; the frozen FACT/PointWorld probes and the
+public-video audit are controls, not claims that every released WAM is flawed.
+This distinction matters for self-improvement: a failure trajectory can teach a
+world model about consequences while still being an invalid target for an
+outcome head if its label is predictable from perturbation size.
 
-\paragraph{Implication for failure-driven self-improvement.}
-Failure trajectories are valid evidence about consequences, but their terminal
-labels need not identify the causal interaction that produced them. An
-evaluator trained on a confounded recipe can therefore pass its in-recipe test
-and still provide useless policy feedback. AGCD is a gate before Best-of-$N$ or
-value-guided updating: intervene on geometry, verify ranking, then permit the
-score to change the policy.
+\paragraph{Decision consequence.}
+The paired protocol is therefore a data-to-decision gate, not a new backbone or
+loss. Once the joint head passes the crossing test, its score can be used for
+candidate ranking, rejection, or evaluator-guided policy updates. If it fails,
+additional capacity or calibration cannot recover the missing action--geometry
+signal; the collection recipe must change first.
 
-\paragraph{What ``action-aware'' claims must report.}
-Offline AUROC alone is ambiguous. Every outcome/value head trained on perturbed
-demos should report (i) recipe amplitude$\rightarrow$success AUROC, (ii) the
-same score under amplitude-controlled paired geometry, and (iii) closed-loop
-success against an amplitude heuristic on matched directions.
+\paragraph{Scope and reproducibility.}
+The main evidence is the MuJoCo FactorTask, with dynamic-contact and
+cross-engine stress tests. RGB/DINO inputs use controlled visual markers, and
+the BridgeData result is deliberately a negative proxy audit; neither implies
+sim-to-real transfer. The release contains the factor generator, JSON gate
+reports, model/task scripts, and tests; no checkpoint is needed to reproduce the
+diagnostic. Exact paired interventions on hardware remain the next validation
+step; the reserved tabletop experiment is intended to test this transfer
+without changing the paper's primary claim.
 
-\paragraph{Practitioner checklist.}
-Use AGCD as a gate before a large WAM run, not as a post-hoc excuse:
-\begin{enumerate}
-\item \textbf{Collect cheaply.} Build a FactorTask-scale (or equivalent)
-confounded set and a paired set with layout-disjoint splits.
-\item \textbf{Probe A (G1--G2).} Report amp$\rightarrow$success AUROC on both
-recipes and transfer of an amplitude head. If G1--G2 fire, stop scaling the
-outcome head on the confounded recipe.
-\item \textbf{Change labels, not losses.} Switch to paired geometry or
-magnitude-matched policy failures. Do not first invent a forgetting regularizer
-while $s$ still predicts~$y$ in the labels.
-\item \textbf{Probe C (G3--G4).} Retrain the \emph{same} head; require ranking
-recovery and closed-loop gap $\ge 0.15$ vs.\ the amplitude heuristic on held-out
-layouts.
-\item \textbf{Separate perception failures.} If a trainable encoder underfits
-geometry (Fig.~\ref{fig:q3_robustness}), paired training will also fail---that is a
-perception bug, not evidence that the protocol is useless.
-\item \textbf{Report the triple.} Publish (i)~recipe amp AUROC, (ii)~paired amp
-AUROC, (iii)~closed-loop gap, or state why selective execution was not evaluated.
-\end{enumerate}
-
-\paragraph{What AGCD does not claim.}
-We do not claim every WAM already implements this chain: frozen FACT/PointWorld
-probes stay near chance ($\approx0.51$), nor do we claim contact-physics parity
-with Isaac Sim. The claimed quantity is the \emph{recipe gap}; the victim is a
-diagnostic instrument, not a leaderboard entry.
-
-\paragraph{Threats to validity.}
-FactorTask is kinematic and contact tasks remain simulated; cross-engine equality
-follows a shared contract, not full physics transfer. RGB/DINO uses synthetic
-markers, and no published full-chain WAM is evaluated, although
-Table~\ref{tab:recipe} shows the ingredients exist separately.
-
-\paragraph{Reproducibility.}
-The \texttt{victim\_baseline/} suite ships a one-click runner, JSON gate reports,
-and all model/task/engine scripts. G1--G4 require no released checkpoint; the
-intentional victim is part of the artifact, not a hidden training trick.
-
-\paragraph{Limitations and evaluation scope.}
-(1)~Primary evidence is MuJoCo FactorTask; dynamic contact covers fewer engines.
-(2)~Centroid/frozen DINOv2 encode geometry, while trainable CNN/ResNet underfit.
-(3)~AGCD is a protocol and decision test, not a leaderboard replacement.
-(4)~Exact paired hardware interventions remain future work; BridgeData is a
-label audit, and reset-free matching is observational without randomized geometry.
-(5)~\emph{FACT-style} denotes the scoring interface, not a cloned backbone;
-fixed perception isolates the collection recipe.
+\paragraph{Physical validation protocol.}
+The hardware study will preserve the diagnostic contrast rather than report
+isolated successful grasps: scalar-matched candidates are replayed across
+object layouts, Action-only and joint scores rank the same candidates, and
+outcomes record grasp success, wrong-object/contact events, and rejection.
+This small-scale test asks whether visible geometry changes real decisions; it
+does not serve as a broad manipulation benchmark.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -851,7 +819,7 @@ contract for failure-driven WAMs, not a new backbone.
 
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{40}
-\setlength{\itemsep}{-4pt}
+\setlength{\itemsep}{-2pt}
 \bibitem{ha2018recurrent} D.~Ha and J.~Schmidhuber, ``Recurrent world models
 facilitate policy evolution,'' \emph{NeurIPS}, 2018.
 \bibitem{hafner2025mastering} D.~Hafner et al., ``Mastering diverse control
