@@ -697,17 +697,15 @@ mass/friction push gains $0.481$ (CI $[0.411,0.568]$); three-outcome
 carry-release gains $0.207$ ($[0.171,0.236]$). Every seed is positive. These are
 predictor metrics; Table~\ref{tab:master} tests evaluator-free policy updates.
 
-\begin{center}
-\IfFileExists{figures/real_robot_tabletop.pdf}{%
-  \includegraphics[width=0.96\linewidth,height=1.8cm,keepaspectratio]{figures/real_robot_tabletop.pdf}%
-}{%
-  \fbox{\parbox[c][1.55cm][c]{0.94\linewidth}{\centering\footnotesize
-  Reserved real-tabletop slot: scene, candidate-action overlay, and outcome.}}
-}
-\end{center}
-\noindent\textit{Real-tabletop transfer (reserved slot).} The same candidate
-action is evaluated under different object layouts; visible geometry determines
-whether the controller executes, rejects, or requests a retry.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_real.pdf}
+\caption{\textbf{Representative real-tabletop executions.}
+Top: successful red-cube pick-and-place. Bottom: placement failure.
+This is qualitative physical evidence; quantitative paired-intervention
+results remain simulation based.}
+\label{fig:real_robot}
+\end{figure}
 
 \subsection{External real-video label audit}
 \label{sec:public_audit}
@@ -795,9 +793,9 @@ cross-engine stress tests. RGB/DINO inputs use controlled visual markers, and
 the BridgeData result is deliberately a negative proxy audit; neither implies
 sim-to-real transfer. The release contains the factor generator, JSON gate
 reports, model/task scripts, and tests; no checkpoint is needed to reproduce the
-diagnostic. Exact paired interventions on hardware remain the next validation
-step; the reserved tabletop experiment is intended to test this transfer
-without changing the paper's primary claim.
+diagnostic. Fig.~\ref{fig:real_robot} documents the physical setup and outcome
+contrast; exact paired interventions on hardware remain the next validation
+step and do not change the paper's primary claim.
 
 \paragraph{Physical validation protocol.}
 The hardware study will preserve the diagnostic contrast rather than report
